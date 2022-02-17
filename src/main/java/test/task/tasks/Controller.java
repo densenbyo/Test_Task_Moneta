@@ -2,6 +2,8 @@ package test.task.tasks;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
+
 
 /**
  * @author Mukan Atazhanov
@@ -21,7 +23,7 @@ public class Controller {
     @GetMapping("/solve1")
     public String solve(@RequestParam(value = "text", defaultValue = "Mukan Atazhanov") String text) {
         StringBuilder reversed = new StringBuilder();
-        String t2 = text.replaceAll("\\s+", " ");
+        String t2 = text.replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
         int len = t2.length();
 
         //reversed cycle
