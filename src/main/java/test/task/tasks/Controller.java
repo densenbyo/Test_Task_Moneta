@@ -2,8 +2,6 @@ package test.task.tasks;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-
 
 /**
  * @author Mukan Atazhanov
@@ -50,5 +48,52 @@ public class Controller {
             }
         }
         return reversed.toString();
+    }
+
+    //can use pathvariable too
+    /*@GetMapping("/solve2/{number}")
+    public Integer num(@PathVariable Integer number)*/
+    @GetMapping("/solve2")
+    public Integer num(@RequestParam(value = "number", defaultValue = "43256791") Integer number) {
+        String temp = Integer.toString(number);
+        int[] intArr = new int[temp.length()];
+        StringBuilder res = new StringBuilder();
+        int evenNum = 0;
+
+        //insert numbers into int array
+        for(int i = 0; i < temp.length(); i++) {
+            intArr[i] = temp.charAt(i) - '0';
+        }
+
+        //change position to index + 1 of numbers which are <= 3
+        for(int l = intArr.length - 1; l >= 0; l--) {
+            if(intArr[l] <= 3 && (l != intArr.length - 1)) {
+                int tempNum = intArr[l + 1];
+                intArr[l + 1] = intArr[l];
+                intArr[l] = tempNum;
+            }
+        }
+
+        //append stringbuilder and do lefted changes with numbers
+        for(int j : intArr) {
+            switch (j) {
+                case 8:
+                case 9:
+                    res.append(j * 2);
+                    break;
+                case 7:
+                    continue;
+                default:
+                    res.append(j);
+            }
+        }
+
+        //count even number
+        for(int num = 0; num < res.length(); num++){
+            if(res.charAt(num) % 2 == 0) {
+                evenNum++;
+            }
+        }
+        return (Integer.parseInt(res.toString()) / evenNum);
     }
 }
